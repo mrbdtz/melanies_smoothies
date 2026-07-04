@@ -30,7 +30,9 @@ if ingredients_list:
 
     for fruit_chosen in ingredients_list:
       st.subheader(fruit_chosen + ' Nutrition Information')
-      smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + fruit_chosen)
+      search_on_result = session.sql("select search_on from smoothies.public.fruit_options where fruit_name = '" + fruit_chosen + "'").collect()
+      search_on = search_on_result[0]['SEARCH_ON']
+      smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + search_on)
       sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
   
     ingredients_string = ' '.join(ingredients_list)
